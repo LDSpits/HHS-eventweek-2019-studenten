@@ -27,7 +27,6 @@ public class Quit implements Move{
 
     @Override
     public String toString(){
-        // TODO: Write implementation
-        return null;
+        return "Quit";
     }
 }

@@ -17,7 +17,7 @@ public class Help implements Move{
     @Override
     public String apply(GameState gameState) {
         // TODO: Write implementation
-        return null;
+        return "Solitaire game\nThe following options are available:\n";
     }
 
     @Override
@@ -27,7 +27,6 @@ public class Help implements Move{
 
     @Override
     public String toString() {
-        // TODO: Write implementation
-        return null;
+        return "Help";
     }
 }
