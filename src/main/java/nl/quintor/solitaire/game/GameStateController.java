@@ -24,8 +24,15 @@ public class GameStateController {
      * @return a new GameState object, ready to go
      */
     public static GameState init(){
+        GameState state = new GameState();
+
+        // Create a new default deck, shuffle and assign the deck to the GameState
+        Deck defaultDeck = Deck.createDefaultDeck();
+        Collections.shuffle(defaultDeck);
+        state.getStock().addAll(defaultDeck);
+
         // TODO: Write implementation
-        return new GameState();
+        return state;
     }
 
     /**
