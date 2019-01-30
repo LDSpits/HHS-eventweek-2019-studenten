@@ -33,17 +33,27 @@ public class GameStateController {
         Deck defaultDeck = Deck.createDefaultDeck();
         Collections.shuffle(defaultDeck);
 
-        for (int i = 0; i <28; i++){ //Loop to fill up stockpile with 28 cards
-            Card stockCard = defaultDeck.get(i);
+        for (int i = 0; i < 24; i++){ //Loop to fill up stockpile with 28 cards
+            Card stockCard = defaultDeck.get(0);
             state.getStock().add(stockCard);
+            defaultDeck.remove(0); //Remove card from defaultdeck because it is now part of the stockpile
         }
 
         //TODO add remaining cards to (new) columndecks; then add new decks to map with stringkeys, such as: "column 1", etc
 
+        Map<String, Deck> columns = state.getColumns();
 
+        for (int i = 0; i < 7; i++){
 
-        Map<String, Deck> columns = new LinkedHashMap<>();
+            Deck aColumn = new Deck(DeckType.COLUMN);
+            aColumn.addAll(defaultDeck.subList(0,i+1));
+            defaultDeck.removeAll(defaultDeck.subList(0,i+1));
 
+            String key = "Column " + Integer.toString(i+1);
+
+            columns.put(key, aColumn);
+
+        }
 
 
 
