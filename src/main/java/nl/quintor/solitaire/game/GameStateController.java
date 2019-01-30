@@ -1,5 +1,6 @@
 package nl.quintor.solitaire.game;
 
+import nl.quintor.solitaire.models.card.Card;
 import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
 import nl.quintor.solitaire.models.state.GameState;
@@ -8,6 +9,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Library class for GameState initiation and status checks that are called from {@link nl.quintor.solitaire.Main}.
@@ -29,7 +32,20 @@ public class GameStateController {
         // Create a new default deck, shuffle and assign the deck to the GameState
         Deck defaultDeck = Deck.createDefaultDeck();
         Collections.shuffle(defaultDeck);
-        state.getStock().addAll(defaultDeck);
+
+        for (int i = 0; i <28; i++){ //Loop to fill up stockpile with 28 cards
+            Card stockCard = defaultDeck.get(i);
+            state.getStock().add(stockCard);
+        }
+
+        //TODO add remaining cards to (new) columndecks; then add new decks to map with stringkeys, such as: "column 1", etc
+
+
+
+        Map<String, Deck> columns = new LinkedHashMap<>();
+
+
+
 
         // TODO: Write implementation
         return state;

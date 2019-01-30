@@ -1,6 +1,8 @@
 # HHS Solitaire / Patience
 ##### Quintor & HHS Software Engineering Event Week
 
+Hello? David Hier
+
 --- 
 
 Welcome to the Event Week! In this project you will program your own game of Solitaire / Patience. If you are unfamiliar 
@@ -30,7 +32,7 @@ many features as possible as well. These are just a few of the programming conce
    which are a kind of blueprints for classes (which is why you don't have to design them).
 
 If all of this is new for you, don't worry. We've left you examples, documentation so you know what everything does / 
-is supposed to do. And we are there to help you of course.
+is supposed to do. And we are there t``o help you of course.
 
 As a team, you will try and implement a game of Solitaire. While it is a relatively simple game, quite a lot of different 
 features can be identified. A [backlog](backlog.md) of such features has been created for you. It is split into two categories. 

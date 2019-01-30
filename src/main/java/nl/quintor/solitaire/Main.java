@@ -34,6 +34,7 @@ public class Main {
      */
     public static void main(String... args){
         // initialize the GameState, UI and all possible moves
+
         UI ui = new CommandLineUI();
         GameState gameState = GameStateController.init();
         List<String> keys = Arrays.asList("C", "M", "R", "H", "Q");
