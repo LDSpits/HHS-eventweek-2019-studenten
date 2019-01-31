@@ -43,19 +43,20 @@ public class GameStateController {
 
         Map<String, Deck> columns = state.getColumns();
 
+        String letters = "ABCDEFG";
+
         for (int i = 0; i < 7; i++){
 
             Deck aColumn = new Deck(DeckType.COLUMN);
             aColumn.addAll(defaultDeck.subList(0,i+1));
             defaultDeck.removeAll(defaultDeck.subList(0,i+1));
+            aColumn.setInvisibleCards(i);
 
-            String key = "Column " + Integer.toString(i+1);
+            String key = Character.toString(letters.charAt(i));
 
             columns.put(key, aColumn);
 
         }
-
-
 
         // TODO: Write implementation
         return state;
