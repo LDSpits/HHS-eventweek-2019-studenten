@@ -8,6 +8,9 @@ import nl.quintor.solitaire.models.card.Suit;
 import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Library class for card move legality checks. The class is not instantiable, all constructors are private and all methods are
  * static. The class contains several private helper methods. All methods throw {@link MoveException}s, which can
@@ -45,7 +48,23 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void deckLevelChecks(Deck sourceDeck, int sourceCardIndex, Deck destinationDeck) throws MoveException {
-        // TODO: Write implementation
+        if(destinationDeck.equals(sourceDeck))
+            throw new MoveException("Move source and destination can't be the same");
+
+        if(destinationDeck.getDeckType().equals(DeckType.STOCK))
+            throw new MoveException("You can't move cards to the stock");
+
+        if(sourceDeck.isEmpty())
+            throw new MoveException("You can't move a card from an empty deck");
+
+        // if source is a column, the source card must be visible
+        if (sourceDeck.getDeckType() == DeckType.COLUMN && sourceCardIndex < sourceDeck.getInvisibleCards())
+            throw new MoveException("You can't move an invisible card");
+
+        // if destination is a stack, only 1 card can be moved (only has to be checked for a column source)
+        if (destinationDeck.getDeckType() == DeckType.STACK && sourceDeck.getDeckType() == DeckType.COLUMN
+            && sourceCardIndex != sourceDeck.size() - 1)
+            throw new MoveException("You can't move more than 1 card at a time to a Stack Pile");
     }
 
     /**
