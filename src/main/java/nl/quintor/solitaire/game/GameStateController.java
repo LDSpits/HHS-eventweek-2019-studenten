@@ -7,6 +7,8 @@ import nl.quintor.solitaire.models.state.GameState;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -78,7 +80,7 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyTimePenalty(GameState gameState){
-        long duration = gameState.getEndTime().getSecond() - gameState.getStartTime().getSecond();
+        long duration = ChronoUnit.SECONDS.between(gameState.getStartTime(), gameState.getEndTime());
         gameState.setTimeScore((duration / 10) * -2);
     }
 
@@ -89,7 +91,7 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyBonusScore(GameState gameState){
-        long gameDuration = gameState.getEndTime().getSecond() - gameState.getStartTime().getSecond();
+        long gameDuration = ChronoUnit.SECONDS.between(gameState.getStartTime(), gameState.getEndTime());
         if(gameDuration > 30)
             gameState.setTimeScore(700000 / gameDuration);
     }
@@ -103,5 +105,14 @@ public class GameStateController {
      */
     public static void detectGameWin(GameState gameState){
         // TODO: Write implementation
+        if (gameState.getStock().isEmpty()) {
+
+            for (Map.Entry<String, Deck> column : gameState.getColumns().entrySet()) {
+                if(column.getValue().getInvisibleCards() != 0)
+                    return;
+            }
+
+            gameState.setGameWon(true);
+        }
     }
 }

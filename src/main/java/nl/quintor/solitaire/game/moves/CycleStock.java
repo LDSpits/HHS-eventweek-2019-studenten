@@ -2,6 +2,7 @@ package nl.quintor.solitaire.game.moves;
 
 import nl.quintor.solitaire.game.moves.ex.MoveException;
 import nl.quintor.solitaire.models.deck.Deck;
+import nl.quintor.solitaire.models.deck.DeckType;
 import nl.quintor.solitaire.models.state.GameState;
 
 /**
@@ -33,6 +34,15 @@ public class CycleStock implements RevertibleMove {
     @Override
     public String apply(GameState gameState) throws MoveException{
         // TODO: Write implementation
+        if(gameState.getStock().size() == 0 && gameState.getWaste().size() == 0)
+            throw new MoveException("Stock is empty");
+        if(gameState.getWaste().size() == 0 && gameState.getStock().size() == 1)
+            gameState.setStockCycles(gameState.getStockCycles()+1);
+        if(gameState.getWaste().size() == 0 && gameState.getStock().size() > 1) {
+            //todo: the test does not work
+            gameState.setStockCycles(gameState.getStockCycles() + 1);
+        }
+        // todo: save moves and return a valid string.
         return null;
     }
 
