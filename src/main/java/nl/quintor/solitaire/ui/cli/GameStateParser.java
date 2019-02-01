@@ -57,13 +57,14 @@ class GameStateParser {
         Card topCard = gameState.getStock().get(indexTopCard); //get topcard
 
         stringBuilder.append("    " + topCard.toShortString());
+
         stringBuilder.append("                     _ _     _ _     _ _     _ _");
 
         stringBuilder.append("\n");
 
 
 
-        stringBuilder.append("\n     A       B       C       D       E       F       G");
+        stringBuilder.append("\n     A       B       C       D       E       F       G"); //PARSE COLUMN headers
 
 
         stringBuilder.append("\n");
