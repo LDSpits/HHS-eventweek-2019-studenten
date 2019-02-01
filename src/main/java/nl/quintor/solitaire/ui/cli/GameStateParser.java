@@ -45,14 +45,25 @@ class GameStateParser {
      */
     static String parseGameState(GameState gameState) {
 
-        String columnLetters [] = {"A", "B", "C", "D", "E", "F", "G"};
-
-
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("  ");
-        for (int k =0; k < 7; k++){
-            padNAdd(stringBuilder, columnLetters[k], COLUMN_WIDTH);
-        }
+
+        stringBuilder.append("     O                      SA      SB      SC      SD"); //PArse stackheaders
+
+
+        stringBuilder.append("\n"); //next line
+
+        int indexTopCard = gameState.getStock().size()-1; //index for topcard of stack
+
+        Card topCard = gameState.getStock().get(indexTopCard); //get topcard
+
+        stringBuilder.append("    " + topCard.toShortString());
+        stringBuilder.append("                     _ _     _ _     _ _     _ _");
+
+        stringBuilder.append("\n");
+
+
+
+        stringBuilder.append("\n     A       B       C       D       E       F       G");
 
 
         stringBuilder.append("\n");
@@ -78,19 +89,20 @@ class GameStateParser {
      * @return did the row contain any cards
      */
     protected static boolean printRow(StringBuilder builder, Collection<Deck> columns, int row) {
-        boolean hasCard = false;
+
         padNAdd(builder, Integer.toString(row), FIRST_COLUMN_WIDTH);
         for (Deck deck : columns) {
 
-
-
             String cardString = getCardStringOrNull(deck, row);
+
             if (cardString != null) {
                 padNAdd(builder, cardString.trim(), COLUMN_WIDTH);
+
+
             } else padNAdd(builder, "   ", COLUMN_WIDTH);
         }
 
-        return hasCard;
+        return false;
     }
 
     /**
@@ -125,7 +137,7 @@ class GameStateParser {
 
         String toAdd = string;
         if (string.length() == 1) {
-            toAdd = "     " + string + " ";
+            toAdd = " " + string + " ";
 
         }
 
