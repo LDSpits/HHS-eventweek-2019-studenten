@@ -10,6 +10,7 @@ import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -123,7 +124,24 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     static void checkStackMove(Card targetCard, Card cardToAdd) throws MoveException {
-        // TODO: Write implementation
+        List<Rank> kaartWaardes = Arrays.asList(Rank.values());
+
+        if (targetCard != null){
+
+            int verschil = kaartWaardes.indexOf(cardToAdd) - kaartWaardes.indexOf(targetCard);
+
+            if (targetCard.equals(Rank.ACE) && !cardToAdd.equals(Rank.TWO)){
+                throw new MoveException("alleen twee op aas");
+            } else if (verschil !=1){
+
+                throw  new MoveException("Begin bij 2 en bouw verder op");
+            }
+
+
+
+        } else if (!cardToAdd.equals(Rank.ACE)){
+            throw new MoveException("Lege stack moet beginnen met een aas");
+        }
     }
 
     /**
@@ -134,7 +152,20 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     static void checkColumnMove(Card targetCard, Card cardToAdd) throws MoveException {
-        /// TODO: Write implementation
+        List<Rank> kaartWaardes = Arrays.asList(Rank.values());
+
+
+        if (targetCard != null) {
+
+            int verschil = kaartWaardes.indexOf(targetCard.getRank()) - kaartWaardes.indexOf(cardToAdd.getRank());
+
+            if (verschil != 1) {
+                throw new MoveException("Een nieuwe kaart moet een andere kleur hebben én één rang lager zijn");
+            }
+
+        } else if (!cardToAdd.equals(Rank.KING)) {
+            throw new MoveException("Lege kolomvakken kunnen alleen opgevuld worden door een koning");
+        }
     }
 
     /**
@@ -145,8 +176,11 @@ public class CardMoveChecks {
      * @return true if the cards are of different colors
      */
     static boolean opposingColor(Card card1, Card card2){
-        // TODO: Write implementation
-        return true;
+        boolean isDifferent1 = redSuit(card1) && !redSuit(card2);
+        boolean isDifferent2 = !redSuit(card1) && redSuit(card2);
+
+
+        return isDifferent1 || isDifferent2;
     }
 
     /**
