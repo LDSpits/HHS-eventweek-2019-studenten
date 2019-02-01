@@ -1,7 +1,6 @@
 package nl.quintor.solitaire.game;
 
 import nl.quintor.solitaire.game.moves.Help;
-import nl.quintor.solitaire.game.moves.Move;
 import nl.quintor.solitaire.game.moves.ex.MoveException;
 import nl.quintor.solitaire.models.card.Card;
 import nl.quintor.solitaire.models.card.Rank;
@@ -10,7 +9,6 @@ import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,9 +18,7 @@ import java.util.List;
  * shown to the user.
  */
 public class CardMoveChecks {
-    private CardMoveChecks() {
-    }
-
+    private CardMoveChecks(){}
     private final static String helpInstructions = new Help().toString();
 
     /**
@@ -36,7 +32,7 @@ public class CardMoveChecks {
      * @param input the user input, split on the space character, cast to uppercase
      * @throws MoveException on syntax error
      */
-    public static void checkPlayerInput(String[] input) throws MoveException {
+    public static void checkPlayerInput(String[] input) throws MoveException{
         // TODO: Write implementation
     }
 
@@ -46,13 +42,29 @@ public class CardMoveChecks {
      * {@link Deck} objects have a {@link DeckType} that is used in this method. The rank and suit of the actual cards
      * are not taken into consideration here.
      *
-     * @param sourceDeck      deck that the card(s) originate from
+     * @param sourceDeck deck that the card(s) originate from
      * @param sourceCardIndex index of the (first) card
      * @param destinationDeck deck that the card(s) will be transferred to
      * @throws MoveException on illegal move
      */
     public static void deckLevelChecks(Deck sourceDeck, int sourceCardIndex, Deck destinationDeck) throws MoveException {
-        // TODO: Write implementation
+        if(destinationDeck.equals(sourceDeck))
+            throw new MoveException("Move source and destination can't be the same");
+
+        if(destinationDeck.getDeckType().equals(DeckType.STOCK))
+            throw new MoveException("You can't move cards to the stock");
+
+        if(sourceDeck.isEmpty())
+            throw new MoveException("You can't move a card from an empty deck");
+
+        // if source is a column, the source card must be visible
+        if (sourceDeck.getDeckType() == DeckType.COLUMN && sourceCardIndex < sourceDeck.getInvisibleCards())
+            throw new MoveException("You can't move an invisible card");
+
+        // if destination is a stack, only 1 card can be moved (only has to be checked for a column source)
+        if (destinationDeck.getDeckType() == DeckType.STACK && sourceDeck.getDeckType() == DeckType.COLUMN
+            && sourceCardIndex != sourceDeck.size() - 1)
+            throw new MoveException("You can't move more than 1 card at a time to a Stack Pile");
     }
 
     /**
@@ -62,44 +74,11 @@ public class CardMoveChecks {
      * {@link #checkStackMove(Card, Card)} and {@link #checkColumnMove(Card, Card)}.
      *
      * @param targetDeck deck that the card(s) will be transferred to
-     * @param cardToAdd  (first) card
+     * @param cardToAdd (first) card
      * @throws MoveException on illegal move
      */
     public static void cardLevelChecks(Deck targetDeck, Card cardToAdd) throws MoveException {
-
-        DeckType soortDeck = targetDeck.getDeckType();
-        int aantalDichte = targetDeck.getInvisibleCards();
-        if (aantalDichte == 1) {
-
-            switch (soortDeck) {
-
-
-                case STACK:
-                    checkStackMove(targetDeck.get(0), cardToAdd);
-                    break;
-
-                case COLUMN:
-                    checkColumnMove(targetDeck.get(0), cardToAdd);
-                    break;
-
-            }
-
-
-        } else {
-            Card targetCard = targetDeck.get(aantalDichte);
-            switch (soortDeck) {
-
-
-                case STACK:
-                    checkStackMove(targetCard, cardToAdd);
-                    break;
-
-                case COLUMN:
-                    checkColumnMove(targetCard, cardToAdd);
-                    break;
-
-            }
-        }
+        // TODO: Write implementation
     }
 
     // Helper methods
@@ -108,54 +87,22 @@ public class CardMoveChecks {
      * Verifies that the proposed move is legal given that the targetCard is the top of a stack pile.
      *
      * @param targetCard top card of a stack or null if the stack is empty
-     * @param cardToAdd  card to add to the stack
+     * @param cardToAdd card to add to the stack
      * @throws MoveException on illegal move
      */
     static void checkStackMove(Card targetCard, Card cardToAdd) throws MoveException {
-        List<Rank> kaartWaardes = Arrays.asList(Rank.values());
-
-        if (targetCard != null){
-
-            int verschil = kaartWaardes.indexOf(cardToAdd) - kaartWaardes.indexOf(targetCard);
-
-            if (targetCard.equals(Rank.ACE) && !cardToAdd.equals(Rank.TWO)){
-                throw new MoveException("alleen twee op aas");
-            } else if (verschil !=1){
-
-                throw  new MoveException("Begin bij 2 en bouw verder op");
-            }
-
-
-
-        } else if (!cardToAdd.equals(Rank.ACE)){
-            throw new MoveException("Lege stack moet beginnen met een aas");
-        }
+        // TODO: Write implementation
     }
 
     /**
      * Verifies that the proposed move is legal given that the targetCard is the last card of a column.
      *
      * @param targetCard last card of a column or null if the column is empty
-     * @param cardToAdd  card to add to the column
+     * @param cardToAdd card to add to the column
      * @throws MoveException on illegal move
      */
     static void checkColumnMove(Card targetCard, Card cardToAdd) throws MoveException {
-
-        List<Rank> kaartWaardes = Arrays.asList(Rank.values());
-
-
-        if (targetCard != null) {
-
-            int verschil = kaartWaardes.indexOf(targetCard.getRank()) - kaartWaardes.indexOf(cardToAdd.getRank());
-
-            if (verschil != 1) {
-                throw new MoveException("Een nieuwe kaart moet een andere kleur hebben én één rang lager zijn");
-            }
-
-        } else if (!cardToAdd.equals(Rank.KING)) {
-            throw new MoveException("Lege kolomvakken kunnen alleen opgevuld worden door een koning");
-        }
-
+        /// TODO: Write implementation
     }
 
     /**
@@ -165,23 +112,20 @@ public class CardMoveChecks {
      * @param card2 second card
      * @return true if the cards are of different colors
      */
-    static boolean opposingColor(Card card1, Card card2) {
-
-        boolean isDifferent1 = redSuit(card1) && !redSuit(card2);
-        boolean isDifferent2 = !redSuit(card1) && redSuit(card2);
-
-
-        return isDifferent1 || isDifferent2;
+    static boolean opposingColor(Card card1, Card card2){
+        // TODO: Write implementation
+        return true;
     }
 
     /**
      * Helper method to determine if the card's suit is colored red (Diamonds or Hearts).
      *
+     *
      * @param card card to be tested for red color
      * @return true if card is either of suit Diamonds or Hearts
      * @Throws Runtime exception when Joker card is checked with message 'Method redSuit() should not be used with Jokers'
      */
-    static boolean redSuit(Card card) {
+    static boolean redSuit(Card card){
         if (card.getSuit() == Suit.JOKER) throw new RuntimeException("Method redSuit() should not be used with Jokers");
         return card.getSuit() == Suit.DIAMONDS || card.getSuit() == Suit.HEARTS;
     }
