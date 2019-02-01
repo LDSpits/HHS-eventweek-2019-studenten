@@ -105,5 +105,14 @@ public class GameStateController {
      */
     public static void detectGameWin(GameState gameState){
         // TODO: Write implementation
+        if (gameState.getStock().isEmpty()) {
+
+            for (Map.Entry<String, Deck> column : gameState.getColumns().entrySet()) {
+                if(column.getValue().getInvisibleCards() != 0)
+                    return;
+            }
+
+            gameState.setGameWon(true);
+        }
     }
 }
