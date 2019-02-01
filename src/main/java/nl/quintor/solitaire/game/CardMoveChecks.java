@@ -124,23 +124,21 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     static void checkStackMove(Card targetCard, Card cardToAdd) throws MoveException {
-        List<Rank> kaartWaardes = Arrays.asList(Rank.values());
+        List<Rank> cardValues = Arrays.asList(Rank.values());
 
         if (targetCard != null){
 
-            int verschil = kaartWaardes.indexOf(cardToAdd) - kaartWaardes.indexOf(targetCard);
+            int difference = cardValues.indexOf(cardToAdd) - cardValues.indexOf(targetCard);
 
             if (targetCard.equals(Rank.ACE) && !cardToAdd.equals(Rank.TWO)){
-                throw new MoveException("alleen twee op aas");
-            } else if (verschil !=1){
+                throw new MoveException("Only a card of rank 2 can be stacked upon an Ace. (The first card of the stack)");
+            } else if (difference !=1){
 
-                throw  new MoveException("Begin bij 2 en bouw verder op");
+                throw  new MoveException("To add a new card on the stack; the card must either be one level higher or a two following an Ace");
             }
 
 
 
-        } else if (!cardToAdd.equals(Rank.ACE)){
-            throw new MoveException("Lege stack moet beginnen met een aas");
         }
     }
 
@@ -152,19 +150,19 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     static void checkColumnMove(Card targetCard, Card cardToAdd) throws MoveException {
-        List<Rank> kaartWaardes = Arrays.asList(Rank.values());
+        List<Rank> cardRanks = Arrays.asList(Rank.values());
 
 
         if (targetCard != null) {
 
-            int verschil = kaartWaardes.indexOf(targetCard.getRank()) - kaartWaardes.indexOf(cardToAdd.getRank());
+            int difference = cardRanks.indexOf(targetCard.getRank()) - cardRanks.indexOf(cardToAdd.getRank());
 
-            if (verschil != 1) {
-                throw new MoveException("Een nieuwe kaart moet een andere kleur hebben én één rang lager zijn");
+            if (difference != 1) {
+                throw new MoveException("A new card must have a different color than the previous one");
             }
 
         } else if (!cardToAdd.equals(Rank.KING)) {
-            throw new MoveException("Lege kolomvakken kunnen alleen opgevuld worden door een koning");
+            throw new MoveException("Only a King can be used to fill up an empty columnspot");
         }
     }
 
@@ -176,11 +174,11 @@ public class CardMoveChecks {
      * @return true if the cards are of different colors
      */
     static boolean opposingColor(Card card1, Card card2){
-        boolean isDifferent1 = redSuit(card1) && !redSuit(card2);
-        boolean isDifferent2 = !redSuit(card1) && redSuit(card2);
+        boolean firstRedSecondBlack = redSuit(card1) && !redSuit(card2);
+        boolean firstBlackSecondRed = !redSuit(card1) && redSuit(card2);
 
 
-        return isDifferent1 || isDifferent2;
+        return firstRedSecondBlack || firstBlackSecondRed;
     }
 
     /**
