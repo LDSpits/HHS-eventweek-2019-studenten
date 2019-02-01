@@ -42,6 +42,7 @@ public class GameStateController {
         //TODO add remaining cards to (new) columndecks; then add new decks to map with stringkeys, such as: "column 1", etc
 
         Map<String, Deck> columns = state.getColumns();
+        Map<String, Deck> stacks = state.getStackPiles();
 
         String letters = "ABCDEFG";
 
@@ -56,6 +57,14 @@ public class GameStateController {
 
             columns.put(key, aColumn);
 
+        }
+
+        String [] stackSymbols = {"SA","SB", "SC", "SD" };
+
+        for (int j=0; j <4; j++){
+            Deck stackDeck = new Deck(DeckType.STACK);
+            stackDeck.setInvisibleCards(0);
+            stacks.put(stackSymbols[j], stackDeck);
         }
 
         // TODO: Write implementation

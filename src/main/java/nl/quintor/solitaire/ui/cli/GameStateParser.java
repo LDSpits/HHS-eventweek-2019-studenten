@@ -44,12 +44,22 @@ class GameStateParser {
      * @return a visual representation of the gameState (for monospace terminal printing)
      */
     static String parseGameState(GameState gameState) {
-        StringBuilder stringBuilder = new StringBuilder();
 
+        String columnLetters [] = {"A", "B", "C", "D", "E", "F", "G"};
+
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("  ");
+        for (int k =0; k < 7; k++){
+            padNAdd(stringBuilder, columnLetters[k], COLUMN_WIDTH);
+        }
+
+
+        stringBuilder.append("\n");
 
         for (int i = 0; i < 7; i++) {
             printRow(stringBuilder, gameState.getColumns().values(), i);
-            stringBuilder.append("\n ");
+            stringBuilder.append("\n");
 
         }
 
@@ -69,8 +79,10 @@ class GameStateParser {
      */
     protected static boolean printRow(StringBuilder builder, Collection<Deck> columns, int row) {
         boolean hasCard = false;
-
+        padNAdd(builder, Integer.toString(row), FIRST_COLUMN_WIDTH);
         for (Deck deck : columns) {
+
+
 
             String cardString = getCardStringOrNull(deck, row);
             if (cardString != null) {
@@ -91,6 +103,7 @@ class GameStateParser {
     protected static String getCardStringOrNull(Deck deck, int index) {
         String res;
         if (index < deck.size() && (index >= 0)) {
+
             if (index >= deck.getInvisibleCards()) {
                 Card cardToString = deck.get(index);
                 res = cardToString.getSuit().getSymbol() + " " + cardToString.getRank().getSymbol();
@@ -109,10 +122,10 @@ class GameStateParser {
      * @param totalLength The total length that the String must become
      */
     protected static void padNAdd(StringBuilder builder, String string, int totalLength) {
-        // TODO: Write implementation
+
         String toAdd = string;
         if (string.length() == 1) {
-            toAdd = " " + string;
+            toAdd = "     " + string + " ";
 
         }
 
