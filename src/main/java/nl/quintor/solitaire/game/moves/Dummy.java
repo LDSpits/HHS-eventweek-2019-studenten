@@ -36,7 +36,6 @@ public class Dummy implements Move{
 
     @Override
     public String toString() {
-        // TODO: Write implementation
-        return null;
+        return "Dummy";
     }
 }
